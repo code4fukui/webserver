@@ -1,10 +1,8 @@
 import { CONTENT_TYPE } from "https://js.sabae.cc/CONTENT_TYPE.js";
 
-export const handleWeb = async (req) => {
-  //const url = req.url;
+export const handleWeb = async (req, publishDir = "static") => {
   const path = new URL(req.url).pathname;
   try {
-    //console.log(path, req.headers);
     const getRange = (req) => {
       const range = req.headers.get("Range");
       if (!range || !range.startsWith("bytes=")) {
@@ -29,7 +27,7 @@ export const handleWeb = async (req) => {
     const fn = calcPath(path);
     const n = fn.lastIndexOf(".");
     const ext = n < 0 ? "html" : fn.substring(n + 1);
-    const [data, totallen, gzip] = await readFileRange("static" + fn, range);
+    const [data, totallen, gzip] = await readFileRange(publishDir + fn, range);
     if (!range) {
       if (data.length != totallen) {
         range = [0, data.length - 1];

@@ -8,5 +8,5 @@ serve(async (req) => {
     console.log("param", q);
     return resjson({ response: "OK", param: q });
   }
-  return handleWeb(req);
+  return handleWeb(req, "static");
 });
