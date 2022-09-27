@@ -60,9 +60,10 @@ export const handleWeb = async (req) => {
     });
   } catch (e) {
     if (path !== "/favicon.ico") {
-      console.log(e);
+      //console.log(e);
       //console.log("err", path, e.stack);
     }
+    return new Response("not found", { status: 404 });
   }
 };
 

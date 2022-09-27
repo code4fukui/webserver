@@ -1,5 +1,5 @@
 export const reqjson = async (req) => {
-  if (req.method === "POST" || req.method == "PUT") {
+  if (req.method == "POST" || req.method == "PUT") {
     return await req.json();
   } else if (req.method == "DELETE") {
     return null; // no requets
