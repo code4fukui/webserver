@@ -1,6 +1,6 @@
 # webserver
 
-webserver for Deno
+utils for webserver with API in Deno.
 
 ## Usage
 
@@ -14,11 +14,11 @@ serve(async (req) => {
     console.log("param", q);
     return resjson({ response: "OK", param: q });
   }
-  return handleWeb(req);
+  return handleWeb(req, "static");
 });
 ```
 
-access [http://localhost:8000/](http://localhost:8000/)
+Open [http://localhost:8000/](http://localhost:8000/) in your browser.
 
 ```bash
 mkdir static
