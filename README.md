@@ -13,7 +13,7 @@ serveAPI("/api", async (param) => {
 });
 ```
 
-Open [http://localhost:8000/](http://localhost:8000/api) in your browser.
+Open [http://localhost:8000/api](http://localhost:8000/api) in your browser.
 
 flexible version
 ```JavaScript
