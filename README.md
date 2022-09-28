@@ -1,12 +1,12 @@
-# webserver
+# wsutil
 
-utils for webserver with API in Deno.
+wsutil is a utility library for webserver with API in Deno.
 
 ## Usage
 
 simple API server
 ```JavaScript
-import { serveAPI } from "https://js.sabae.cc/webserver.js";
+import { serveAPI } from "https://js.sabae.cc/wsutil.js";
 
 serveAPI("/api", async (param) => {
   return { response: "OK", param };
@@ -17,7 +17,7 @@ Open [http://localhost:8000/api](http://localhost:8000/api) in your browser.
 
 flexible version
 ```JavaScript
-import { serve, handleWeb, handleAPI, rescors } from "https://js.sabae.cc/webserver.js";
+import { serve, handleWeb, handleAPI, rescors } from "https://js.sabae.cc/wsutil.js";
 
 serve(async (req, path) => {
   if (path == "/api") {
