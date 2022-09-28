@@ -41,6 +41,7 @@ export const handleWeb = async (req, publishDir = "static") => {
       "Content-Type": ctype,
       "Accept-Ranges": "bytes",
       "Content-Length": data.length,
+      "Access-Control-Allow-Origin": "*",
     };
     if (gzip) {
       headers["Content-Encoding"] = "gzip";
@@ -54,7 +55,7 @@ export const handleWeb = async (req, publishDir = "static") => {
     }
     return new Response(data, {
       status: range ? 206 : 200,
-      headers: new Headers(headers),
+      headers
     });
   } catch (e) {
     if (path !== "/favicon.ico") {

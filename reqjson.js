@@ -1,5 +1,13 @@
+import { CBOR } from "https://js.sabae.cc/CBOR.js";
+
+const CTYPE_CBOR = "application/cbor";
+
 export const reqjson = async (req) => {
   if (req.method == "POST" || req.method == "PUT") {
+    const ctype = req.headers.get("Content-Type");
+    if (ctype == CTYPE_CBOR) {
+      return CBOR.decode(new Uint8Array(await req.arrayBuffer()));
+    }
     return await req.json();
   } else if (req.method == "DELETE") {
     return null; // no requets
