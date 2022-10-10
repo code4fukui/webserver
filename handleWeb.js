@@ -1,7 +1,6 @@
 import { CONTENT_TYPE } from "https://js.sabae.cc/CONTENT_TYPE.js";
 
-export const handleWeb = async (req, publishDir = "static") => {
-  const path = new URL(req.url).pathname;
+export const handleWeb = async (publishDir, req, path, conninfo) => {
   try {
     const getRange = (req) => {
       const range = req.headers.get("Range");
