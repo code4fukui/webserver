@@ -16,7 +16,7 @@ export const serve = (handle) => { // func(req, path)
 export const serveAPI = (apipath, func) => { // func(param, req, path)
   serve(async (req, path) => {
     if (path.startsWith(apipath)) {
-      return await handleAPI(req, func, path);
+      return await handleAPI(req, path, func);
     }
     return await handleWeb(req, "static");
   });
