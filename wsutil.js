@@ -4,7 +4,7 @@ import { handleAPI } from "./handleAPI.js";
 export { handleWeb, handleAPI };
 export { resjson, rescbor, rescors } from "./resjson.js";
 
-export const serve = (handle) => {
+export const serve = (handle) => { // func(req, path)
   const port = Deno.args[0] ? parseInt(Deno.args[0]) : 8000;
   const hostname = "[::]";
   _serve(async (req) => {
@@ -13,10 +13,10 @@ export const serve = (handle) => {
   }, { port, hostname });
 };
 
-export const serveAPI = (apipath, func) => { // func(param, req)
+export const serveAPI = (apipath, func) => { // func(param, req, path)
   serve(async (req, path) => {
-    if (path == apipath) {
-      return await handleAPI(req, func);
+    if (path.startsWith(apipath)) {
+      return await handleAPI(req, func, path);
     }
     return await handleWeb(req, "static");
   });
