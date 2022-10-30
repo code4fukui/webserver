@@ -1,7 +1,7 @@
 import * as t from "https://deno.land/std/testing/asserts.ts";
 import { CBOR } from "https://js.sabae.cc/CBOR.js";
 
-// deno run -A demo.js 8800
+// deno run -A demo1.js 8800
 
 Deno.test("json -> json", async () => {
   const p = { test: "abc", n: 123 };
