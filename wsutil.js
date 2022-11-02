@@ -8,13 +8,13 @@ import { program } from 'https://code4fukui.github.io/commander-es/index.js';
 program
   .version("0.0.2")
   .argument("[port number]", "port number of the server socket")
-  .option("--ipv4", "hostname become localhost instead of [::]")
+  .option("--ipv4", "hostname become 0.0.0.0 instead of [::]")
   .parse();
 
 const options = program.opts();
 
 const port = parseInt((program.processedArgs ? program.processedArgs[0] : null) || 8000);
-const hostname = options.ipv4 ? "localhost" : "[::]";
+const hostname = options.ipv4 ? "0.0.0.0" : "[::]";
 
 export const serve = (handle) => { // func(req, path, conninfo)
   _serve(async (req, conninfo) => {
