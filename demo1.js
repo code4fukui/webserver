@@ -2,5 +2,6 @@
 import { serveAPI } from "./wsutil.js";
 
 serveAPI("/api", async (param, req, path, conninfo) => {
-  return { response: "OK", param, req, path, conninfo };
+  //return { response: "OK", param, req, path, conninfo };
+  return { response: "OK", param };
 });
