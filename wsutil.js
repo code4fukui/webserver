@@ -25,6 +25,14 @@ export const serve = (handle) => { // func(req, path, conninfo)
 
 export const serveAPI = (apipath, func) => { // func(param, req, path, conninfo)
   serve(async (req, path, conninfo) => {
+    if (req.method == "OPTIONS") {
+      const headers = {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "*",
+        "Content-Type": "text/plain",
+      };
+      return new Response("ok", { headers });
+    }
     if (path.startsWith(apipath)) {
       return await handleAPI(func, req, path, conninfo);
     }
