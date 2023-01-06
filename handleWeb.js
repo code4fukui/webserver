@@ -41,6 +41,7 @@ export const handleWeb = async (publishDir, req, path, conninfo) => {
       "Accept-Ranges": "bytes",
       "Content-Length": data.length,
       "Access-Control-Allow-Origin": "*",
+      //"Access-Control-Allow-Headers": "*",
     };
     if (gzip) {
       headers["Content-Encoding"] = "gzip";
