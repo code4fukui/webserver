@@ -5,7 +5,7 @@ export const rescors = (body, ctype) => {
     "Access-Control-Allow-Origin": "*",
     "Content-Type": ctype,
   };
-  const res = new Response(body, headers);
+  const res = new Response(body, { headers });
   return res;
 };
 
