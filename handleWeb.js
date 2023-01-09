@@ -13,7 +13,6 @@ export const handleWeb = async (publishDir, req, path, conninfo) => {
       }
       return res;
     };
-    let range = getRange(req);
     const calcPath = (path) => {
       if (path === "/" || path.indexOf("..") >= 0) {
         return "/index.html";
@@ -26,6 +25,7 @@ export const handleWeb = async (publishDir, req, path, conninfo) => {
     const fn = calcPath(path);
     const n = fn.lastIndexOf(".");
     const ext = n < 0 ? "html" : fn.substring(n + 1);
+    let range = getRange(req);
     const [data, totallen, gzip] = await readFileRange(publishDir + fn, range);
     if (!range) {
       if (data.length != totallen) {
@@ -50,8 +50,7 @@ export const handleWeb = async (publishDir, req, path, conninfo) => {
       range = null;
     }
     if (range) {
-      headers["Content-Range"] = "bytes " + range[0] + "-" + range[1] +
-        "/" + totallen;
+      headers["Content-Range"] = `bytes ${range[0]}-${range[1]}/${totallen}`;
     }
     return new Response(data, {
       status: range ? 206 : 200,
@@ -70,28 +69,26 @@ const DENO_BUF_SIZE = 32 * 1024;
 
 const readFilePartial = async (fn, offset, len) => {
   const f = await Deno.open(fn);
-  //console.log(fn, offset, len);
   await Deno.seek(f.rid, offset, Deno.SeekMode.Start);
   const buf = new Uint8Array(len);
   const rbuf = new Uint8Array(DENO_BUF_SIZE);
   let off = 0;
-  for (;;) {
+  A: for (;;) {
     const rlen = await Deno.read(f.rid, rbuf);
     for (let i = 0; i < rlen; i++) {
-      buf[off + i] = rbuf[i];
-    }
-    //console.log(off, rlen);
-    off += rlen;
-    len -= rlen;
-    if (len == 0) {
-      break;
+      buf[off++] = rbuf[i];
+      if (off == buf.length) {
+        break A;
+      }
     }
   }
   await Deno.close(f.rid);
   return buf;
 };
 
-const RANGE_LEN = 1024 * 1024 * 10;
+//const RANGE_LEN = 1024 * 1024 * 10; // 10Mb
+const RANGE_LEN = 1 * 1024 * 1024; // 1Mb
+//const RANGE_LEN = 300 * 1024; // 300kb
 
 const readFileRange = async (fn, range) => {
   let gzip = true;
