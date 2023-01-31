@@ -21,7 +21,9 @@ import { serve, handleWeb, handleAPI, rescors } from "https://js.sabae.cc/wsutil
 
 serve(async (req, path, conninfo) => {
   if (path == "/api") {
-    return await handleAPI(async (param) => ({ response: "OK", param }), req, path, conninfo);
+    return await handleAPI(async (param, req, path, conninfo) => {
+      return { response: "OK", param };
+    }, req, path, conninfo);
   } else if (path == "/test") {
     return rescors("test", "text/html");
   }
