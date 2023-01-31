@@ -19,13 +19,13 @@ flexible version
 ```JavaScript
 import { serve, handleWeb, handleAPI, rescors } from "https://js.sabae.cc/wsutil.js";
 
-serve(async (req, path) => {
+serve(async (req, path, conninfo) => {
   if (path == "/api") {
-    return await handleAPI(req, async (param) => ({ response: "OK", param }));
+    return await handleAPI(async (param) => ({ response: "OK", param }), req, path, conninfo);
   } else if (path == "/test") {
     return rescors("test", "text/html");
   }
-  return await handleWeb("static", req, path);
+  return await handleWeb("static", req, path, conninfo);
 });
 ```
 
