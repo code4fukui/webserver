@@ -13,10 +13,10 @@ program
 
 const options = program.opts();
 
-const port = parseInt((program.processedArgs ? program.processedArgs[0] : null) || 8000);
 const hostname = options.ipv4 ? "0.0.0.0" : "[::]";
 
-export const serve = (handle) => { // func(req, path, conninfo)
+export const serve = (handle, defaultPort = 8000) => { // func(req, path, conninfo)
+  const port = parseInt((program.processedArgs ? program.processedArgs[0] : null) || defaultPort);
   _serve(async (req, conninfo) => {
     const path = new URL(req.url).pathname;
     return await handle(req, path, conninfo);
