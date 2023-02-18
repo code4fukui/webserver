@@ -23,7 +23,7 @@ export const serve = (handle, defaultPort = 8000) => { // func(req, path, connin
   }, { port, hostname });
 };
 
-export const serveAPI = (apipath, func) => { // func(param, req, path, conninfo)
+export const serveAPI = (apipath, func, defaultPort = 8000) => { // func(param, req, path, conninfo)
   serve(async (req, path, conninfo) => {
     if (req.method == "OPTIONS") {
       const headers = {
@@ -37,5 +37,5 @@ export const serveAPI = (apipath, func) => { // func(param, req, path, conninfo)
       return await handleAPI(func, req, path, conninfo);
     }
     return await handleWeb("static", req, path, conninfo);
-  });
+  }, defaultPort);
 };
