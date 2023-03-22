@@ -69,12 +69,12 @@ const DENO_BUF_SIZE = 32 * 1024;
 
 const readFilePartial = async (fn, offset, len) => {
   const f = await Deno.open(fn);
-  await Deno.seek(f.rid, offset, Deno.SeekMode.Start);
+  f.seek(offset, Deno.SeekMode.Start);
   const buf = new Uint8Array(len);
   const rbuf = new Uint8Array(DENO_BUF_SIZE);
   let off = 0;
   A: for (;;) {
-    const rlen = await Deno.read(f.rid, rbuf);
+    const rlen = await f.read(rbuf);
     for (let i = 0; i < rlen; i++) {
       buf[off++] = rbuf[i];
       if (off == buf.length) {
@@ -82,7 +82,7 @@ const readFilePartial = async (fn, offset, len) => {
       }
     }
   }
-  await Deno.close(f.rid);
+  await f.close();
   return buf;
 };
 
