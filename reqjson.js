@@ -1,6 +1,7 @@
 import { CBOR } from "https://js.sabae.cc/CBOR.js";
 
 const CTYPE_CBOR = "application/cbor";
+const CTYPE_JWT = "application/jwt";
 
 export const reqjson = async (req) => {
   if (!req) {
@@ -10,6 +11,8 @@ export const reqjson = async (req) => {
     const ctype = req.headers.get("Content-Type");
     if (ctype == CTYPE_CBOR) {
       return CBOR.decode(new Uint8Array(await req.arrayBuffer()));
+    } else if (ctype == CTYPE_JWT) {
+      return await req.text(); // header.payload.signature
     }
     return await req.json();
   } else if (req.method == "DELETE") {
