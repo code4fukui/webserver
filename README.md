@@ -8,7 +8,7 @@ simple API server
 ```JavaScript
 import { serveAPI } from "https://js.sabae.cc/wsutil.js";
 
-serveAPI("/api", async (param) => {
+serveAPI("/api/", async (func, req, path, conninfo) => {
   return { response: "OK", param };
 });
 ```
@@ -20,7 +20,7 @@ flexible version
 import { serve, handleWeb, handleAPI, rescors } from "https://js.sabae.cc/wsutil.js";
 
 serve(async (req, path, conninfo) => {
-  if (path == "/api") {
+  if (path == "/api/") {
     return await handleAPI(async (param, req, path, conninfo) => {
       return { response: "OK", param };
     }, req, path, conninfo);
