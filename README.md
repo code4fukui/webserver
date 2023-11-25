@@ -8,7 +8,7 @@ simple API server
 ```JavaScript
 import { serveAPI } from "https://js.sabae.cc/wsutil.js";
 
-serveAPI("/api/", async (func, req, path, conninfo) => {
+serveAPI("/api/", async (param, req, path, conninfo) => {
   return { response: "OK", param };
 });
 ```
