@@ -4,7 +4,7 @@ import { serve, handleWeb, handleAPI, rescors } from "./wsutil.js";
 serve(async (req, path, conninfo) => {
   if (path == "/api") {
     return await handleAPI((param, req, path, conninfo) => ({ response: "OK", param, req, path, conninfo }), req, path, conninfo);
-  } else if (req.path == "/test") {
+  } else if (path == "/test") {
     return rescors("test", "text/html");
   }
   return await handleWeb("static", req, path, conninfo);
