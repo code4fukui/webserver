@@ -1,5 +1,6 @@
 import { serveFile } from "https://deno.land/std@0.224.0/http/file_server.ts";
 import { handleAPI } from "https://code4fukui.github.io/wsutil/handleAPI.js";
+import { checkIP } from "./checkIP.js";
 
 export const serveWeb = (apihandler = null, port) => { // apihandle = (param, req, path, conn) => {};
   port = port || parseInt(Deno.args[0] || "80");
@@ -16,6 +17,10 @@ export const serveWeb = (apihandler = null, port) => { // apihandle = (param, re
       const path = path0.endsWith("/") ? path0 + "index.html" : path0;
       if (path.indexOf("..") >= 0 || path[1] == "/") return null;
       const fn = "static/" + path.substring(1);
+      const ip = conn.remoteAddr.hostname;
+      if (!await checkIP(ip, fn)) {
+        return null;
+      }
       return serveFile(req, fn);
     } catch (e) {
       console.log("in handler", e);
