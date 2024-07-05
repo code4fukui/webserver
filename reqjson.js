@@ -13,9 +13,10 @@ export const reqjson = async (req) => {
     const ctype = req.headers.get("Content-Type");
     const bin = new Uint8Array(await req.arrayBuffer());
     if (ctype == CTYPE_CBOR) {
-      const sign = Base64URL.decode(req.headers.get("X-Sign"));
-      if (sign) {
-        const pubkey = Base64URL.decode(req.headers.get("X-Public-Key"));
+      const spubkey = req.headers.get("X-Public-Key");
+      if (spubkey) {
+        const pubkey = Base64URL.decode(spubkey);
+        const sign = Base64URL.decode(req.headers.get("X-Sign"));
         const verify = sec.verify(sign, pubkey, bin);
         if (!verify) return null;
       }
