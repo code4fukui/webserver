@@ -5,7 +5,7 @@ import { Base64URL } from "https://code4fukui.github.io/Base64URL/Base64URL.js";
 const CTYPE_CBOR = "application/cbor";
 const CTYPE_JWT = "application/jwt";
 
-export const reqjson = async (req) => {
+export const reqjson = async (req, postonly) => {
   if (!req) {
     return null;
   }
@@ -27,7 +27,7 @@ export const reqjson = async (req) => {
     return await req.json();
   } else if (req.method == "DELETE") {
     return null; // no requets
-  } else if (req.method === "GET") {
+  } else if (req.method === "GET" && !postonly) {
     const n = req.url.indexOf("?");
     const sjson = decodeURIComponent(req.url.substring(n + 1));
     try {
