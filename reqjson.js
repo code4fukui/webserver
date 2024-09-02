@@ -11,7 +11,6 @@ export const reqjson = async (req, postonly) => {
   }
   if (req.method == "POST" || req.method == "PUT") {
     const ctype = req.headers.get("Content-Type");
-    const bin = new Uint8Array(await req.arrayBuffer());
     if (ctype == CTYPE_CBOR) {
       const spubkey = req.headers.get("X-Public-Key");
       if (spubkey) {
@@ -20,6 +19,7 @@ export const reqjson = async (req, postonly) => {
         const verify = sec.verify(sign, pubkey, bin);
         if (!verify) return null;
       }
+      const bin = new Uint8Array(await req.arrayBuffer());
       return CBOR.decode(bin);
     } else if (ctype == CTYPE_JWT) {
       return await req.text(); // header.payload.signature
