@@ -29,6 +29,7 @@ export const reqjson = async (req, postonly) => {
     return null; // no requets
   } else if (req.method === "GET" && !postonly) {
     const n = req.url.indexOf("?");
+    if (n < 0) return null;
     const sjson = decodeURIComponent(req.url.substring(n + 1));
     try {
       return JSON.parse(sjson);
