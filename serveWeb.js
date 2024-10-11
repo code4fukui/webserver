@@ -19,11 +19,12 @@ export const serveWeb = (apihandler = null, port, postonly = true) => { // apiha
       const fn = "static/" + path.substring(1);
       const ip = conn.remoteAddr.hostname;
       if (!await checkIP(ip, fn)) {
-        return null;
+        return new Response("Unauthorized", { status: 401 });
       }
       return serveFile(req, fn);
     } catch (e) {
       console.log("in handler", e);
     }
+    return new Response("Internal Server Error", { status: 500 });
   });
 };
