@@ -2,14 +2,40 @@
 
 wsutil is a utility library for webserver with API in Deno.
 
-## Usage
+## Usage (for Deno 2.x)
+
+simple API server as server.js
+```JavaScript
+import { fetchWeb } from "https://code4fukui.github.io/wsutil/fetchWeb.js";
+
+export default fetchWeb(async (param, req, path, conninfo) => {
+  return { response: "OK", path, param, remoteAddr: conninfo.remoteAddr };
+});
+```
+
+```sh
+deno serve -A --port 8000 --host "[::]" server.js
+```
+
+Open [http://localhost:8000/api/](http://localhost:8000/api/) in your browser.
+
+```bash
+mkdir static
+cat > static/index.html << EOF
+test
+EOF
+```
+
+Open [http://localhost:8000/](http://localhost:8000/) in your browser.
+
+## Usage (for Deno 1.x)
 
 simple API server as server.js
 ```JavaScript
 import { serveWeb } from "https://code4fukui.github.io/wsutil/serveWeb.js";
 
 serveWeb(async (param, req, path, conninfo) => {
-  return { response: "OK", param };
+  return { response: "OK", path, param, remoteAddr: conninfo.remoteAddr };
 });
 ```
 
@@ -17,7 +43,7 @@ serveWeb(async (param, req, path, conninfo) => {
 deno run -A server.js 8000
 ```
 
-Open [http://localhost:8000/api/?test](http://localhost:8000/api/?test) in your browser.
+Open [http://localhost:8000/api/](http://localhost:8000/api/) in your browser.
 
 ```bash
 mkdir static
