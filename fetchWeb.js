@@ -6,15 +6,17 @@ const fetchAPI = async (req, conn, apihandler, postonly) => { // apihandler = (p
   try {
     const url = new URL(req.url);
     const path0 = url.pathname;
+    const ip = conn.remoteAddr.hostname;
+    const path = path0.endsWith("/") ? path0 + "index.html" : path0;
+    const fn = "static/" + path.substring(1);
+    if (!await checkIP(ip, fn)) {
+      return new Response("Unauthorized", { status: 401 });
+    }
     if (apihandler && path0.startsWith("/api/")) {
       return handleAPI(apihandler, req, path0, conn, postonly);
     }
-    const path = path0.endsWith("/") ? path0 + "index.html" : path0;
-    if (path.indexOf("..") >= 0 || path[1] == "/") return null;
-    const fn = "static/" + path.substring(1);
-    const ip = conn.remoteAddr.hostname;
-    if (!await checkIP(ip, fn)) {
-      return new Response("Unauthorized", { status: 401 });
+    if (path.indexOf("..") >= 0 || path[1] == "/") {
+      return new Response("not found", { status: 404 });
     }
     return serveFile(req, fn);
   } catch (e) {
