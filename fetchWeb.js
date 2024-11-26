@@ -1,8 +1,9 @@
 import { serveFile } from "https://deno.land/std@0.224.0/http/file_server.ts";
 import { handleAPI } from "./handleAPI.js";
 import { checkIP } from "./checkIP.js";
+import { saveAppendLog } from "./saveAppendLog.js";
 
-const fetchAPI = async (req, conn, apihandler, postonly) => { // apihandler = (param, req, path, conn) => {};
+const access = async (req, conn, apihandler, postonly) => {
   try {
     const url = new URL(req.url);
     const path0 = url.pathname;
@@ -23,6 +24,12 @@ const fetchAPI = async (req, conn, apihandler, postonly) => { // apihandler = (p
     console.log("in apihandler", e);
   }
   return new Response("Internal Server Error", { status: 500 });
+};
+
+const fetchAPI = async (req, conn, apihandler, postonly) => { // apihandler = (param, req, path, conn) => {};
+  const res = await access(req, conn, apihandler, postonly);
+  await saveAppendLog(req, conn, res);
+  return res;
 };
 
 export const fetchWeb = (apihandler, postonly) => ({ fetch: async (req, conn) => await fetchAPI(req, conn, apihandler, postonly) });
