@@ -28,6 +28,27 @@ EOF
 
 Open [http://localhost:8000/](http://localhost:8000/) in your browser.
 
+### IP filter
+
+- to edit .conf on directory
+
+```
+allow '127.0.0.1'; # allow 127.0.0.1
+deny all; # can't access others
+```
+
+```
+readonly all; # allow to read
+allow '127.0.0.1'; # allow to read and write from 127.0.0.1
+deny all; # can't access others
+```
+
+```
+writeonly all; # allow to write
+allow '127.0.0.1'; # allow to read and write from 127.0.0.1
+deny all; # can't access others
+```
+
 ## Usage (for Deno 1.x)
 
 simple API server as server.js

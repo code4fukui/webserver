@@ -10,7 +10,8 @@ const access = async (req, conn, apihandler, postonly) => {
     const ip = conn.remoteAddr.hostname;
     const path = path0.endsWith("/") ? path0 + "index.html" : path0;
     const fn = "static/" + path.substring(1);
-    if (!await checkIP(ip, fn)) {
+    const write = req.method != "GET";
+    if (!await checkIP(ip, fn, write)) {
       return new Response("Unauthorized", { status: 401 });
     }
     if (apihandler && path0.startsWith("/api/")) {
