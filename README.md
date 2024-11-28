@@ -38,13 +38,13 @@ deny all; # can't access others
 ```
 
 ```
-readonly all; # allow to read
+read all; # allow to read
 allow '127.0.0.1'; # allow to read and write from 127.0.0.1
 deny all; # can't access others
 ```
 
 ```
-writeonly all; # allow to write
+write all; # allow to write
 allow '127.0.0.1'; # allow to read and write from 127.0.0.1
 deny all; # can't access others
 ```
