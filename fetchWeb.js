@@ -6,7 +6,7 @@ import { saveAppendLog } from "./saveAppendLog.js";
 const access = async (req, conn, apihandler, postonly) => {
   try {
     const url = new URL(req.url);
-    const path0 = url.pathname;
+    const path0 = decodeURIComponent(url.pathname);
     const ip = conn.remoteAddr.hostname;
     const path = path0.endsWith("/") ? path0 + "index.html" : path0;
     const fn = "static/" + path.substring(1);
